@@ -1,9 +1,16 @@
+version: '3'
 services:
   missav-dlp-web:
-    build: .
-    container_name: missav-dlp-web
-    ports:
-      - '55000:5000'
-    restart: unless-stopped
+    image: ghcr.io/nerdnam/missav-dlp-web:0.0.1
+    network_mode: "container:gluetun-vpn" # (선택) VPN 컨테이너 네트워크 사용 시
+    # ports:
+    #   - "5000:5000" # VPN을 사용하지 않을 때만 활성화하세요.
     volumes:
       - /D:\
+    restart: unless-stopped
+
+services:
+  gluetun-vpn:
+    # ... (기존 Gluetun 설정) ...
+    ports:
+      - "58000:5000/tcp"  # 사용할 포트 58000, missav-dlp-web docker 내부 포트 5000
